@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubits/categoria_cubit.dart';
-import 'repositories/auth_repository.dart';
-import 'repositories/categoria_repository.dart';
-import 'repositories/transacao_repository.dart';
+import 'repositories/local_repositories.dart';
 import 'cubits/auth_cubit.dart';
 import 'cubits/auth_state.dart';
 import 'cubits/transacao_form_cubit.dart';
@@ -21,7 +19,7 @@ class FinanceiroApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(repository: AuthRepository()),
+      create: (context) => AuthCubit(repository: LocalAuthRepository()),
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Controle Financeiro',
@@ -29,13 +27,11 @@ class FinanceiroApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal)),
           home: BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
             if (state is Authenticated) {
-              final transacaoRepository =
-                  TransacaoRepository(accessToken: state.usuario.accessToken);
+              final transacaoRepository = LocalTransacaoRepository();
               return MultiBlocProvider(providers: [
                 BlocProvider<CategoriaCubit>(
                   create: (context) => CategoriaCubit(
-                    repository: CategoriaRepository(
-                        accessToken: state.usuario.accessToken),
+                    repository: LocalCategoriaRepository(),
                   )..carregarCategorias(),
                 ),
                 BlocProvider<TransacaoCubit>(

@@ -46,10 +46,10 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextField(
                 controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
-                    labelText: 'E-mail',
-                    prefixIcon: Icon(Icons.email_outlined),
+                    labelText: 'Usuário',
+                    prefixIcon: Icon(Icons.person_outline),
                     border: OutlineInputBorder()),
               ),
               const SizedBox(height: 16),
@@ -81,15 +81,6 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text('Entrar',
                             style:
                                 TextStyle(fontSize: 16, color: Colors.white))),
-                    const SizedBox(height: 16),
-                    OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 14)),
-                        onPressed: () {
-                          context.read<AuthCubit>().realizarCadastro(
-                              _emailController.text, _senhaController.text);
-                        },
-                        child: const Text('Criar nova conta'))
                   ],
                 );
               })
